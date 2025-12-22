@@ -1,15 +1,24 @@
 package kafka
 
-import "os"
+import (
+	"net"
+	"os"
+)
 
 type KafkaConfig struct {
-	Host string
-	Port string
+	Host    string
+	Port    string
+	Address string
 }
 
 func LoadKafkaConfigs() (*KafkaConfig, error) {
-	kafkaHost := os.Getenv("KAFKA_HOST")
-	kafkaPort := os.Getenv("KAFKA_PORT")
+	host := os.Getenv("KAFKA_HOST")
+	port := os.Getenv("KAFKA_PORT")
+	address := net.JoinHostPort(host, port)
 
-	return &KafkaConfig{Host: kafkaHost, Port: kafkaPort}, nil
+	return &KafkaConfig{
+		Host:    host,
+		Port:    port,
+		Address: address,
+	}, nil
 }

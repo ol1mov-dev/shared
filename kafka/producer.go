@@ -2,9 +2,14 @@ package kafka
 
 import "github.com/segmentio/kafka-go"
 
-func ProduceMessage(kafkaAddress string, kafkaTopic string) (*kafka.Writer, error) {
+func ProduceMessage(kafkaTopic string) (*kafka.Writer, error) {
+	kafkaConf, err := LoadKafkaConfigs()
+	if err != nil {
+		return nil, err
+	}
+
 	writer := &kafka.Writer{
-		Addr:     kafka.TCP(kafkaAddress), // адрес вашего Kafka брокера
+		Addr:     kafka.TCP(kafkaConf.Address), // адрес вашего Kafka брокера
 		Topic:    kafkaTopic,
 		Balancer: &kafka.LeastBytes{}, // балансировщик для распределения по партициям
 	}
