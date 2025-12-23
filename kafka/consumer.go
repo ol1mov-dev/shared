@@ -1,17 +1,17 @@
 package kafka
 
 import (
-	"github.com/segmentio/kafka-go"
+	kafkago "github.com/segmentio/kafka-go"
 )
 
-func ConsumeMessages(topic string, groupId string) (*kafka.Reader, error) {
+func ConsumeMessages(topic string, groupId string) (*kafkago.Reader, error) {
 	kafkaConf, err := LoadKafkaConfigs()
 
 	if err != nil {
 		return nil, err
 	}
 
-	reader := kafka.NewReader(kafka.ReaderConfig{
+	reader := kafkago.NewReader(kafkago.ReaderConfig{
 		Brokers: []string{kafkaConf.Address},
 		Topic:   topic,
 		GroupID: groupId,
